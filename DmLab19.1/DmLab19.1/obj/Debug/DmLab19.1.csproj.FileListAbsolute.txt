@@ -1,0 +1,7 @@
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\DmLab19.1\bin\Debug\DmLab19.1.exe.config
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\DmLab19.1\bin\Debug\DmLab19.1.exe
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\DmLab19.1\bin\Debug\DmLab19.1.pdb
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\DmLab19.1\obj\Debug\DmLab19.1.csproj.AssemblyReference.cache
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\DmLab19.1\obj\Debug\DmLab19.1.csproj.CoreCompileInputs.cache
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\DmLab19.1\obj\Debug\DmLab19.1.exe
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\DmLab19.1\obj\Debug\DmLab19.1.pdb
