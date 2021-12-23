@@ -54,11 +54,19 @@ namespace DmLab19._1
                 }
             }
 
-            void Vivod(StreamWriter fsr)
+            void Vivod(StreamWriter fsr, int k)
             {
-                foreach (char b in word)
-                    fsr.Write(b);
+                for (int i = 0; i < k; i++)
+                    fsr.Write(word[i]);
                 fsr.WriteLine();
+            }
+
+            void VivodMnog(StreamWriter fsr, int k)
+            {
+                fsr.Write("{");
+                for (int i = 0; i < k; i++)
+                    fsr.Write(" {0}", word[i]);
+                fsr.Write(" }\n");
             }
 
             void Swap(int i, int j)
@@ -75,20 +83,20 @@ namespace DmLab19._1
                 {
                     word.Add(alf[0]);
                 }
-                Vivod(fsr);
+                Vivod(fsr,word.Count);
                 while (HasNext())
                 {
                     NextWord();
-                    Vivod(fsr);
+                    Vivod(fsr,word.Count);
                 }
-                fsr.Close();
+                fsr.Close(); 
             }
             
             public void Perestanovki()
             {
                 StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\P.txt");
                 word = alf.GetRange(0, alf.Count);
-                Vivod(fsr);
+                Vivod(fsr,word.Count);
                 while (true)
                 {
                     int i = word.Count - 2;
@@ -101,43 +109,104 @@ namespace DmLab19._1
                     int l = i + 1, r = word.Count - 1;
                     while (l < r)
                         Swap(l++, r--);
-                    Vivod(fsr);
+                    Vivod(fsr,word.Count);
                 }
                 fsr.Close();
             }
-            ///
+            
             public void RazmeshPoK(int k)
             {
                 StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\R.txt");
                 word.Clear();
-                for (int i = 0; i < k; i++)
+                for (int i = 0; i < alf.Count; i++)
                     word.Add(alf[i]);
-                Vivod(fsr);
                 bool f = true;
                 while (f)
                 {
                     int i;
+                    Vivod(fsr, k);
                     do  
                     {
-                        i = alf.Count - 1;
-                        while (i != -1 && alf.IndexOf(word[i]) > alf.IndexOf(word[i + 1])) i--;
+                        i = alf.Count - 2;
+                        while (i != -1 && alf.IndexOf(word[i]) >= alf.IndexOf(word[i + 1])) i--;
                         if (i == -1)
                         { 
                             f = false;
                             break;
                         }
                         int j = alf.Count - 1;
-                        while (alf.IndexOf(word[i]) > alf.IndexOf(word[j])) j--;
+                        while (alf.IndexOf(word[i]) >= alf.IndexOf(word[j])) j--;
                         Swap(i, j);
                         int l = i + 1, r = alf.Count - 1; 
                         while (l < r)
                             Swap(l++, r--);
                     } while (i > k - 1);
-                    Vivod(fsr);
                 }
                 fsr.Close();
             }
-            ///
+            
+            bool HasNextSuchit(int k)
+            {
+                int j = k;
+                for (int i = j - 1; i >= 0; --i)
+                    if (alf.IndexOf(word[i]) < alf.Count - j + i)
+                    {
+                        word[i] = alf[alf.IndexOf(word[i]) + 1];
+                        for (int l = i + 1; l < j; ++l)
+                            word[l] = alf[alf.IndexOf(word[l - 1]) + 1];
+                        return true;
+                    }
+                return false;
+            }
+
+            public void Suchitaniya(int k)
+            {
+                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\SNWPPoK.txt");
+                word = alf.GetRange(0, alf.Count);
+                Vivod(fsr, k);
+                while (HasNextSuchit(k))
+                {
+                    Vivod(fsr, k);
+                }
+                fsr.Close();
+            } 
+
+
+            public void AllPodMnog()
+            {
+                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\AllPodMnog.txt");
+                fsr.WriteLine("{ }");
+                for (int i = 1; i < alf.Count; i++)
+                {
+                    word = alf.GetRange(0, alf.Count);
+                    VivodMnog(fsr, i);
+                    while (HasNextSuchit(i))
+                    {
+                        VivodMnog(fsr, i);
+                    }
+                }
+                fsr.Close();
+            }
+
+            public void AllSuchitaniyaWithPovtoreniyami()
+            {
+                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\AllSuchitaniya.txt");
+                for(int i=1;i<alf.Count;i++)
+                {
+                    word.Clear();
+                    for (int j = 0; j < i; j++)
+                    {
+                        word.Add(alf[0]);
+                    }
+                    Vivod(fsr, word.Count);
+                    while (HasNext())
+                    {
+                        NextWord();
+                        Vivod(fsr, word.Count);
+                    }
+                }
+                fsr.Close();
+            }
         }
         
         static void Main(string[] args)
@@ -149,6 +218,9 @@ namespace DmLab19._1
             obj.SuchitaniyaWithPovtoreniyami(k);
             obj.Perestanovki();
             obj.RazmeshPoK(k);
+            obj.Suchitaniya(k);
+            obj.AllPodMnog();
+            obj.AllSuchitaniyaWithPovtoreniyami();
             Console.ReadKey();
         }
     }
