@@ -76,9 +76,9 @@ namespace DmLab19._1
                 word[j] = b;
             }
 
-            public void SuchitaniyaWithPovtoreniyami(int k)
+            public void RazmeshenieWithP(int k)
             {
-                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\SWP.txt");
+                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\RWP.txt");
                 for (int i = 0; i < k; i++)
                 {
                     word.Add(alf[0]);
@@ -190,7 +190,7 @@ namespace DmLab19._1
 
             public void AllSuchitaniyaWithPovtoreniyami()
             {
-                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\AllSuchitaniya.txt");
+                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\ASWP.txt");
                 for(int i=1;i<alf.Count;i++)
                 {
                     word.Clear();
@@ -199,9 +199,21 @@ namespace DmLab19._1
                         word.Add(alf[0]);
                     }
                     Vivod(fsr, word.Count);
-                    while (HasNext())
+                    while(true)
                     {
-                        NextWord();
+                        int k = i- 1;
+                        while (k >= 0 && word[k] == alf[alf.Count-1] ) k--;
+                        if (k < 0) break;
+                        if (alf.IndexOf(word[k]) >= alf.Count)
+                            k--;
+                        word[k] = alf[alf.IndexOf(word[k]) + 1];
+                        if (k == i - 1)
+                        {
+                            Vivod(fsr, word.Count);
+                            continue;
+                        }
+                        for (int p = k + 1; p < i; p++)
+                            word[p]  = word[k];
                         Vivod(fsr, word.Count);
                     }
                 }
@@ -215,7 +227,7 @@ namespace DmLab19._1
             Object obj = new Object(Console.ReadLine());
             Console.Write("Введите число k:");
             int k = Convert.ToInt32(Console.ReadLine());
-            obj.SuchitaniyaWithPovtoreniyami(k);
+            obj.RazmeshenieWithP(k);
             obj.Perestanovki();
             obj.RazmeshPoK(k);
             obj.Suchitaniya(k);
