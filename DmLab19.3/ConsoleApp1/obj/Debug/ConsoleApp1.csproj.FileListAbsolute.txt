@@ -1,0 +1,7 @@
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\ConsoleApp1\bin\Debug\ConsoleApp1.exe.config
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\ConsoleApp1\bin\Debug\ConsoleApp1.exe
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\ConsoleApp1\bin\Debug\ConsoleApp1.pdb
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\ConsoleApp1\obj\Debug\ConsoleApp1.csproj.AssemblyReference.cache
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\ConsoleApp1\obj\Debug\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\ConsoleApp1\obj\Debug\ConsoleApp1.exe
+C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
