@@ -12,11 +12,14 @@ namespace ConsoleApp1
         class Alfavit
         {
             protected List<char> alf = new List<char>();
+
+            protected int n;
             public Alfavit(string s)
             {
                 foreach (char b in s)
                     if (b != ' ')
                         alf.Add(b);
+                n = alf.Count;
             }
 
         }
@@ -24,6 +27,7 @@ namespace ConsoleApp1
         class Object : Alfavit
         {
             List<char> word = new List<char>();
+
             public Object(string s) : base(s) { }
 
             void Vivod(StreamWriter fsr, int k)
@@ -51,34 +55,6 @@ namespace ConsoleApp1
                     return false;
             }
 
-            
-            public void Zad1()
-            {
-                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\result\#1.txt");
-                for (int i = 0; i < 6; i++)
-                    word.Add(alf[0]);
-                while (true)
-                {
-                    int j = 4;
-                    while (j >= 0 && word[j] == alf[5]) j--;
-                    if (j < 0) break;
-                    if (alf.IndexOf(word[j]) >= 6)
-                        j--;
-                    word[j] = alf[alf.IndexOf(word[j]) + 1];
-                    if (j == 4)
-                        if (Proverka1())
-                        {
-                            Vivod(fsr, 5);
-                            continue;
-                        }
-                    for (int k = j + 1; k < 5; k++)
-                        word[k] = alf[0];
-                    if (Proverka1())
-                        Vivod(fsr, 5);
-                }
-                fsr.Close();
-            }
-///
             bool Proverka2()
             {
                 int[] kol = new int[6];
@@ -97,32 +73,59 @@ namespace ConsoleApp1
                     return false;
             }
 
-            void Swap(int i, int j)
+            void NextWord()
             {
-                char b = word[i];
-                word[i] = word[j];
-                word[j] = b;
+                int i = word.Count - 1;
+                while (word[i] == alf[n - 1])
+                    i--;
+                word[i] = alf[alf.IndexOf(word[i]) + 1];
+                int j = i + 1;
+                while (j < word.Count)
+                {
+                    word[j] = alf[0];
+                    j++;
+                }
             }
-            ///
 
-            public void Zad2()
+            bool HasNext()
+            {
+                bool f = false;
+                for (int i = 0; i < word.Count; i++)
+                {
+                    if (word[i] != alf[n - 1])
+                    {
+                        f = true;
+                        break;
+                    }
+                }
+                return f;
+            }
+            public void Zad1(int k)
+            {
+                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\result\#1.txt");
+                word.Clear();
+                for (int i = 0; i < k; i++)
+                    word.Add(alf[0]);
+                while (HasNext())
+                {
+                    NextWord();
+                    if(Proverka1())
+                        Vivod(fsr, k);
+                }
+                fsr.Close();
+            }
+
+            public void Zad2(int k)
             {
                 StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.3\result\#2.txt");
-                word = alf.GetRange(0, alf.Count);
-                while (true)
+                word.Clear();
+                for (int i = 0; i < k; i++)
+                    word.Add(alf[0]);
+                while (HasNext())
                 {
-                    int i = 4;
-                    while (i != -1 && alf.IndexOf(word[i]) > alf.IndexOf(word[i + 1])) i--;
-                    if (i == -1)
-                        break;
-                    int j = 5;
-                    while (alf.IndexOf(word[i]) > alf.IndexOf(word[j])) j--;
-                    Swap(i, j);
-                    int l = i + 1, r = 5;
-                    while (l < r)
-                        Swap(l++, r--);
+                    NextWord();
                     if(Proverka2())
-                        Vivod(fsr, 6);
+                        Vivod(fsr, k);
                 }
                 fsr.Close();
             }
@@ -133,9 +136,8 @@ namespace ConsoleApp1
         {
             string s = "a b c d e f";
             Object word = new Object(s);
-            word.Zad1();
-            word.Zad2();
-            Console.ReadKey();
+            word.Zad1(5);
+            word.Zad2(6);
         }
     }
 }

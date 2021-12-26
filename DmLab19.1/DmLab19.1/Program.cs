@@ -12,11 +12,14 @@ namespace DmLab19._1
         class Alfavit
         {
             protected List<char> alf = new List<char>();
+
+            protected int n;
             public Alfavit(string s)
             {
                 foreach (char b in s)
                     if(b!=' ')
                         alf.Add(b);
+                n = alf.Count;
             }
 
         }
@@ -31,7 +34,7 @@ namespace DmLab19._1
                 bool f = false;
                 for(int i = 0; i < word.Count;i++)
                 {
-                    if(word[i]!=alf[alf.Count-1])
+                    if(word[i]!=alf[n-1])
                     {
                         f = true;
                         break;
@@ -43,7 +46,7 @@ namespace DmLab19._1
             void NextWord()
             {
                 int i = word.Count - 1;
-                while (word[i] == alf[alf.Count - 1])
+                while (word[i] == alf[n - 1])
                     i--;
                 word[i] = alf[alf.IndexOf(word[i]) + 1];
                 int j = i + 1;
@@ -79,15 +82,16 @@ namespace DmLab19._1
             public void RazmeshenieWithP(int k)
             {
                 StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\RWP.txt");
+                word.Clear();
                 for (int i = 0; i < k; i++)
                 {
                     word.Add(alf[0]);
                 }
-                Vivod(fsr,word.Count);
+                Vivod(fsr,k);
                 while (HasNext())
                 {
                     NextWord();
-                    Vivod(fsr,word.Count);
+                    Vivod(fsr,k);
                 }
                 fsr.Close(); 
             }
@@ -95,21 +99,21 @@ namespace DmLab19._1
             public void Perestanovki()
             {
                 StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\P.txt");
-                word = alf.GetRange(0, alf.Count);
-                Vivod(fsr,word.Count);
+                word = alf.GetRange(0, n);
+                Vivod(fsr,n);
                 while (true)
                 {
-                    int i = word.Count - 2;
+                    int i = n - 2;
                     while (i != -1 && alf.IndexOf(word[i]) > alf.IndexOf(word[i + 1])) i--;
                     if (i == -1)
                         break;
-                    int j = word.Count - 1;
+                    int j = n - 1;
                     while (alf.IndexOf(word[i]) > alf.IndexOf(word[j])) j--;
                     Swap(i, j);
-                    int l = i + 1, r = word.Count - 1;
+                    int l = i + 1, r = n - 1;
                     while (l < r)
                         Swap(l++, r--);
-                    Vivod(fsr,word.Count);
+                    Vivod(fsr,n);
                 }
                 fsr.Close();
             }
@@ -118,7 +122,7 @@ namespace DmLab19._1
             {
                 StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\R.txt");
                 word.Clear();
-                for (int i = 0; i < alf.Count; i++)
+                for (int i = 0; i < n; i++)
                     word.Add(alf[i]);
                 bool f = true;
                 while (f)
@@ -127,58 +131,31 @@ namespace DmLab19._1
                     Vivod(fsr, k);
                     do  
                     {
-                        i = alf.Count - 2;
-                        while (i != -1 && alf.IndexOf(word[i]) >= alf.IndexOf(word[i + 1])) i--;
+                        i = n - 2;
+                        while (i != -1 && alf.IndexOf(word[i]) > alf.IndexOf(word[i + 1])) i--;
                         if (i == -1)
-                        { 
+                        {
                             f = false;
                             break;
                         }
-                        int j = alf.Count - 1;
-                        while (alf.IndexOf(word[i]) >= alf.IndexOf(word[j])) j--;
+                        int j = n - 1;
+                        while (alf.IndexOf(word[i]) > alf.IndexOf(word[j])) j--;
                         Swap(i, j);
-                        int l = i + 1, r = alf.Count - 1; 
+                        int l = i + 1, r = n - 1; 
                         while (l < r)
                             Swap(l++, r--);
                     } while (i > k - 1);
                 }
                 fsr.Close();
             }
-            
-            bool HasNextSuchit(int k)
-            {
-                int j = k;
-                for (int i = j - 1; i >= 0; --i)
-                    if (alf.IndexOf(word[i]) < alf.Count - j + i)
-                    {
-                        word[i] = alf[alf.IndexOf(word[i]) + 1];
-                        for (int l = i + 1; l < j; ++l)
-                            word[l] = alf[alf.IndexOf(word[l - 1]) + 1];
-                        return true;
-                    }
-                return false;
-            }
-
-            public void Suchitaniya(int k)
-            {
-                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\SNWPPoK.txt");
-                word = alf.GetRange(0, alf.Count);
-                Vivod(fsr, k);
-                while (HasNextSuchit(k))
-                {
-                    Vivod(fsr, k);
-                }
-                fsr.Close();
-            } 
-
 
             public void AllPodMnog()
             {
                 StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\AllPodMnog.txt");
                 fsr.WriteLine("{ }");
-                for (int i = 1; i < alf.Count; i++)
+                for (int i = 1; i < n; i++)
                 {
-                    word = alf.GetRange(0, alf.Count);
+                    word = alf.GetRange(0, n);
                     VivodMnog(fsr, i);
                     while (HasNextSuchit(i))
                     {
@@ -188,33 +165,56 @@ namespace DmLab19._1
                 fsr.Close();
             }
 
+            bool HasNextSuchit(int k)
+            {
+                for (int i = k - 1; i >= 0; --i)
+                    if (alf.IndexOf(word[i]) < n - k + i)
+                    {
+                        word[i] = alf[alf.IndexOf(word[i]) + 1];
+                        for (int l = i + 1; l < k; ++l)
+                            word[l] = alf[alf.IndexOf(word[l - 1]) + 1];
+                        return true;
+                    }
+                return false;
+            }
+
+            public void Suchitaniya(int k)
+            {
+                StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\SNWPPoK.txt");
+                word = alf.GetRange(0, n);
+                Vivod(fsr, k);
+                while (HasNextSuchit(k))
+                {
+                    Vivod(fsr, k);
+                }
+                fsr.Close();
+            } 
+
             public void AllSuchitaniyaWithPovtoreniyami()
             {
                 StreamWriter fsr = new StreamWriter(@"C:\Users\PcBoyarin\Desktop\GayDev\DmLab21-24\DmLab19.1\result\ASWP.txt");
-                for(int i=1;i<alf.Count;i++)
+                for(int i=1;i<=n;i++)
                 {
                     word.Clear();
                     for (int j = 0; j < i; j++)
                     {
                         word.Add(alf[0]);
                     }
-                    Vivod(fsr, word.Count);
+                    Vivod(fsr, i);
                     while(true)
                     {
                         int k = i- 1;
-                        while (k >= 0 && word[k] == alf[alf.Count-1] ) k--;
+                        while (k >= 0 && word[k] == alf[n-1] ) k--;
                         if (k < 0) break;
-                        if (alf.IndexOf(word[k]) >= alf.Count)
-                            k--;
                         word[k] = alf[alf.IndexOf(word[k]) + 1];
                         if (k == i - 1)
                         {
-                            Vivod(fsr, word.Count);
+                            Vivod(fsr, i);
                             continue;
                         }
                         for (int p = k + 1; p < i; p++)
                             word[p]  = word[k];
-                        Vivod(fsr, word.Count);
+                        Vivod(fsr, i);
                     }
                 }
                 fsr.Close();
@@ -223,7 +223,7 @@ namespace DmLab19._1
         
         static void Main(string[] args)
         {
-            Console.Write("Введите символы алфавита через пробел:");
+            Console.Write("Введите символы алфавита:");
             Object obj = new Object(Console.ReadLine());
             Console.Write("Введите число k:");
             int k = Convert.ToInt32(Console.ReadLine());
@@ -233,7 +233,6 @@ namespace DmLab19._1
             obj.Suchitaniya(k);
             obj.AllPodMnog();
             obj.AllSuchitaniyaWithPovtoreniyami();
-            Console.ReadKey();
         }
     }
 }
